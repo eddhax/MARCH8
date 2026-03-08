@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>С 8 Марта 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --pink: #e8547a; --light: #fce4ec; --blush: #f48fb1;
+  --deep: #880e4f; --cream: #fff9fb; --gold: #f0a500;
+}
+html { scroll-behavior: smooth; }
+body { font-family:'Nunito',sans-serif; background:var(--cream); overflow-x:hidden; }
+
+/* INTRO */
+#intro {
+  position:fixed; inset:0;
+  background:linear-gradient(135deg,#fce4ec,#f8bbd0,#fce4ec);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  z-index:1000; cursor:pointer;
+  transition: transform 0.8s cubic-bezier(0.36,0.07,0.19,0.97), opacity 0.8s ease;
+}
+.gift-wrap { font-size:8rem; animation:bounce 1.4s ease-in-out infinite; filter:drop-shadow(0 10px 30px rgba(232,84,122,.4)); }
+@keyframes bounce { 0%,100%{transform:translateY(0) rotate(-5deg)} 50%{transform:translateY(-22px) rotate(5deg)} }
+#intro h1 { font-family:'Playfair Display',serif; font-size:clamp(1.6rem,5vw,2.6rem); color:var(--deep); margin-top:20px; text-align:center; padding:0 20px; line-height:1.3; }
+#intro p { color:var(--pink); font-size:1rem; margin-top:10px; animation:blink 1.5s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* MAIN */
+#main { display:none; }
+
+/* SECTIONS */
+.section {
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; padding:60px 20px;
+  position:relative; overflow:hidden;
+}
+.s-odd  { background:linear-gradient(160deg,#fff0f5,#fce4ec); }
+.s-even { background:linear-gradient(160deg,#fce4ec,#fff0f5); }
+.s-dark { background:linear-gradient(160deg,#880e4f,#c2185b,#e8547a); }
+
+/* HERO */
+.date-big {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(5rem,22vw,13rem);
+  font-weight:700; line-height:.9; text-align:center;
+  background:linear-gradient(135deg,var(--pink),var(--deep),var(--gold));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  opacity:0; transform:scale(.7);
+  transition:all .9s cubic-bezier(.34,1.56,.64,1);
+}
+.date-big.show { opacity:1; transform:scale(1); }
+.subtitle {
+  font-size:clamp(1.1rem,3vw,1.7rem); color:var(--deep); margin-top:14px;
+  text-align:center; font-style:italic;
+  opacity:0; transform:translateY(20px); transition:all .7s ease .4s;
+}
+.subtitle.show { opacity:1; transform:translateY(0); }
+.flowers-row {
+  display:flex; gap:8px; font-size:2rem; margin-top:18px;
+  flex-wrap:wrap; justify-content:center;
+  opacity:0; transition:all .7s ease .7s;
+}
+.flowers-row.show { opacity:1; }
+.flowers-row span { display:inline-block; animation:sway 2.5s ease-in-out infinite; }
+.flowers-row span:nth-child(2n){ animation-delay:.3s; }
+.flowers-row span:nth-child(3n){ animation-delay:.6s; }
+@keyframes sway { 0%,100%{transform:rotate(-8deg) translateY(0)} 50%{transform:rotate(8deg) translateY(-8px)} }
+
+/* CAPTION */
+.caption {
+  font-size:clamp(.95rem,2.5vw,1.25rem); color:#c2185b; text-align:center;
+  margin-bottom:22px; font-weight:700; max-width:380px;
+  opacity:0; transform:translateY(16px); transition:all .6s ease;
+}
+.caption.show { opacity:1; transform:translateY(0); }
+
+/* GIF CARD */
+.gif-card {
+  width:min(320px,88vw); border-radius:22px; overflow:hidden;
+  box-shadow:0 20px 60px rgba(232,84,122,.28), 0 0 0 3px rgba(232,84,122,.1);
+  opacity:0; transform:translateY(40px) scale(.94);
+  transition:all .8s cubic-bezier(.34,1.56,.64,1);
+  cursor:pointer; user-select:none;
+}
+.gif-card.show { opacity:1; transform:translateY(0) scale(1); }
+.gif-card:active { transform:scale(.97); }
+.gif-card img { width:100%; height:260px; object-fit:cover; display:block; pointer-events:none; }
+.gif-card .lbl {
+  background:linear-gradient(135deg,var(--pink),var(--deep));
+  color:white; padding:13px 18px; font-size:.95rem; font-weight:700; text-align:center;
+}
+
+/* TAP HINT */
+.tap-hint {
+  margin-top:14px; color:var(--blush); font-size:.85rem; animation:blink 2s infinite;
+  opacity:0; transition:opacity .6s ease .5s;
+}
+.tap-hint.show { opacity:1; }
+
+/* MESSAGE CARD */
+.msg-card {
+  width:min(420px,90vw); background:white; border-radius:22px;
+  padding:30px 26px; box-shadow:0 8px 40px rgba(232,84,122,.15);
+  border-left:5px solid var(--pink);
+  opacity:0; transform:translateX(-40px);
+  transition:all .8s cubic-bezier(.34,1.56,.64,1);
+}
+.msg-card.show { opacity:1; transform:translateX(0); }
+.msg-card .ebig { font-size:2.8rem; display:block; margin-bottom:10px; text-align:center; }
+.msg-card p { font-size:1.1rem; line-height:1.85; color:#5c2a3e; font-style:italic; }
+
+/* PHOTO GRID */
+.pgrid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:12px;
+  width:min(380px,90vw);
+  opacity:0; transition:opacity .8s ease;
+}
+.pgrid.show { opacity:1; }
+.pcell {
+  border-radius:16px; aspect-ratio:1;
+  background:linear-gradient(135deg,#fce4ec,#f48fb1);
+  display:flex; align-items:center; justify-content:center;
+  font-size:3rem; cursor:pointer;
+  box-shadow:0 6px 20px rgba(232,84,122,.2);
+  transform:scale(.88); transition:all .5s cubic-bezier(.34,1.56,.64,1);
+}
+.pgrid.show .pcell { transform:scale(1); }
+.pgrid.show .pcell:nth-child(1){ transition-delay:0s; }
+.pgrid.show .pcell:nth-child(2){ transition-delay:.1s; }
+.pgrid.show .pcell:nth-child(3){ transition-delay:.2s; }
+.pgrid.show .pcell:nth-child(4){ transition-delay:.3s; }
+.pcell:hover { transform:scale(1.07) rotate(2deg); }
+
+/* FINAL */
+.s-dark h2 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,7vw,4rem); color:white; text-align:center; line-height:1.2;
+  opacity:0; transform:translateY(30px); transition:all .9s ease;
+}
+.s-dark h2.show { opacity:1; transform:translateY(0); }
+.s-dark .fin-p {
+  color:rgba(255,255,255,.88); text-align:center; font-size:1.1rem;
+  margin-top:14px; max-width:380px; line-height:1.75;
+  opacity:0; transition:all .7s ease .3s;
+}
+.s-dark .fin-p.show { opacity:1; }
+.big-btn {
+  margin-top:30px; background:white; color:var(--deep);
+  border:none; padding:16px 40px; border-radius:100px;
+  font-family:'Nunito',sans-serif; font-size:1.1rem; font-weight:700;
+  cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,.2);
+  opacity:0; transition:all .7s ease .5s, transform .2s, box-shadow .2s;
+}
+.big-btn.show { opacity:1; }
+.big-btn:hover { transform:scale(1.06) translateY(-3px); box-shadow:0 16px 40px rgba(0,0,0,.3); }
+
+/* SCROLL INDICATOR */
+.scroll-hint {
+  position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+  color:var(--pink); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  animation:blink 2.2s infinite;
+}
+.scroll-hint span { font-size:1.3rem; animation:arrowB 1.2s ease-in-out infinite; }
+@keyframes arrowB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+/* DOTS */
+.dots { position:fixed; right:18px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:10px; z-index:100; }
+.dot { width:8px; height:8px; border-radius:50%; background:rgba(232,84,122,.3); cursor:pointer; transition:all .3s; }
+.dot.active { background:var(--pink); transform:scale(1.6); }
+
+/* FLOATING EMOJIS */
+.fe { position:fixed; pointer-events:none; z-index:999; font-size:1.5rem; animation:floatUp 1.6s ease forwards; }
+@keyframes floatUp { 0%{opacity:1;transform:translateY(0) scale(.5)} 100%{opacity:0;transform:translateY(-200px) scale(1.5) rotate(20deg)} }
+
+/* CONFETTI */
+.cf { position:fixed; top:-20px; pointer-events:none; z-index:998; border-radius:2px; animation:cfDrop linear forwards; }
+@keyframes cfDrop { to{transform:translateY(105vh) rotate(720deg);opacity:0} }
+</style>
+</head>
+<body>
+
+<div id="intro" onclick="openGift()">
+  <div class="gift-wrap">🎁</div>
+  <h1>Здесь есть кое-что<br/>для тебя...</h1>
+  <p>Нажми, чтобы открыть 🌸</p>
+</div>
+
+<div id="main">
+  <div class="dots" id="dots"></div>
+
+  <!-- 0: HERO -->
+  <div class="section s-odd" id="s0">
+    <div class="date-big" id="dateBig">8<br/>марта</div>
+    <div class="subtitle" id="sub1">С Днём Женщин, дорогая! 💗</div>
+    <div class="flowers-row" id="flowers">
+      <span>🌷</span><span>🌸</span><span>🌺</span><span>🌻</span><span>🌹</span><span>🌸</span><span>🌷</span>
+    </div>
+    <div class="scroll-hint">прокрути вниз <span>↓</span></div>
+  </div>
+
+  <!-- 1: GIF reaction -->
+  <div class="section s-even" id="s1">
+    <div class="caption" id="c1">Посмотри, как я рада за тебя сегодня 🥳</div>
+    <div class="gif-card" id="gc1" onclick="tapCard(this,'🎉✨💃')">
+      <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" alt="celebration"/>
+      <div class="lbl">Это — ты сегодня! 💃</div>
+    </div>
+    <div class="tap-hint" id="th1">👆 Нажми на открытку!</div>
+  </div>
+
+  <!-- 2: Message -->
+  <div class="section s-odd" id="s2">
+    <div class="msg-card" id="mc1">
+      <span class="ebig">🌺</span>
+      <p>Ты — невероятная. Каждый день ты делаешь мир вокруг теплее, светлее и красивее. Сегодня мы говорим тебе спасибо за то, что ты есть ✨</p>
+    </div>
+  </div>
+
+  <!-- 3: How people react -->
+  <div class="section s-even" id="s3">
+    <div class="caption" id="c3">Как люди реагируют, когда ты заходишь 😍</div>
+    <div class="gif-card" id="gc2" onclick="tapCard(this,'😍🌟💫')">
+      <img src="https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif" alt="wow"/>
+      <div class="lbl">Все вокруг: 😮🤩💖</div>
+    </div>
+    <div class="tap-hint" id="th2">👆 Нажми!</div>
+  </div>
+
+  <!-- 4: Photo grid -->
+  <div class="section s-odd" id="s4">
+    <div class="caption" id="c4">Несколько поводов улыбнуться 🌸</div>
+    <div class="pgrid" id="pg">
+      <div class="pcell" onclick="popCell(this,'💐','💐🌷🌸')">💐</div>
+      <div class="pcell" onclick="popCell(this,'🦋','🦋✨💖')">🌸</div>
+      <div class="pcell" onclick="popCell(this,'🌟','🌟⭐✨')">🌺</div>
+      <div class="pcell" onclick="popCell(this,'🎀','🎀💗💕')">🌷</div>
+    </div>
+    <div class="tap-hint" id="th3">👆 Нажимай на каждый!</div>
+  </div>
+
+  <!-- 5: One word -->
+  <div class="section s-even" id="s5">
+    <div class="caption" id="c5">Если описать тебя одним словом... 💬</div>
+    <div class="gif-card" id="gc3" onclick="tapCard(this,'⭐💖🌟')">
+      <img src="https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif" alt="sparkle"/>
+      <div class="lbl">✨ ПОТРЯСАЮЩАЯ ✨</div>
+    </div>
+    <div class="tap-hint" id="th4">👆 Нажми!</div>
+  </div>
+
+  <!-- 6: Message 2 -->
+  <div class="section s-odd" id="s6">
+    <div class="msg-card" id="mc2">
+      <span class="ebig">🌷</span>
+      <p>Пусть этот день будет наполнен теплом, цветами и улыбками. Ты заслуживаешь всего самого лучшего — сегодня и каждый день! С праздником, дорогая 💗</p>
+    </div>
+  </div>
+
+  <!-- 7: FINAL -->
+  <div class="section s-dark" id="s7">
+    <h2 id="fh">С 8 Марта!<br/>🌸💗🌸</h2>
+    <p class="fin-p" id="fp">Ты — свет этого мира. Будь счастлива, здорова и любима. Всегда. 💖</p>
+    <button class="big-btn" id="fBtn" onclick="bigBurst(event)">Отправить любовь 💗</button>
+  </div>
+</div>
+
+<script>
+const sections = ['s0','s1','s2','s3','s4','s5','s6','s7'];
+const anims = {
+  s0:[{id:'dateBig'},{id:'sub1'},{id:'flowers'}],
+  s1:[{id:'c1'},{id:'gc1'},{id:'th1'}],
+  s2:[{id:'mc1'}],
+  s3:[{id:'c3'},{id:'gc2'},{id:'th2'}],
+  s4:[{id:'c4'},{id:'pg'},{id:'th3'}],
+  s5:[{id:'c5'},{id:'gc3'},{id:'th4'}],
+  s6:[{id:'mc2'}],
+  s7:[{id:'fh'},{id:'fp'},{id:'fBtn'}],
+};
+
+function openGift() {
+  const intro = document.getElementById('intro');
+  intro.style.transform = 'scale(0) rotate(10deg)';
+  intro.style.opacity = '0';
+  setTimeout(() => {
+    intro.style.display = 'none';
+    document.getElementById('main').style.display = 'block';
+    spawnConfetti(80);
+    setupDots();
+    setupObserver();
+    // trigger first section
+    setTimeout(()=> anims.s0.forEach((t,i)=> setTimeout(()=> document.getElementById(t.id)?.classList.add('show'), i*200)), 300);
+  }, 750);
+}
+
+function setupDots() {
+  const c = document.getElementById('dots');
+  sections.forEach((sid,i)=>{
+    const d = document.createElement('div');
+    d.className='dot'+(i===0?' active':'');
+    d.onclick=()=>document.getElementById(sid).scrollIntoView({behavior:'smooth'});
+    c.appendChild(d);
+  });
+}
+
+function setupObserver() {
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) {
+        const sid=e.target.id;
+        (anims[sid]||[]).forEach((t,i)=> setTimeout(()=> document.getElementById(t.id)?.classList.add('show'), i*160));
+        const idx=sections.indexOf(sid);
+        if(idx>=0) document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+      }
+    });
+  },{threshold:0.35});
+  sections.forEach(sid=>{ const el=document.getElementById(sid); if(el) obs.observe(el); });
+}
+
+function tapCard(el, emojis) {
+  el.style.transform='scale(0.94)';
+  el.style.transition='transform 0.1s ease';
+  setTimeout(()=>{ el.style.transition='transform 0.4s cubic-bezier(.34,1.56,.64,1)'; el.style.transform='scale(1.03)'; setTimeout(()=>{ el.style.transform=''; },300); },120);
+  const r=el.getBoundingClientRect();
+  spawnEmojis(r.left+r.width/2, r.top+r.height/2, emojis.split(''));
+}
+
+function popCell(el, newEmoji, burst) {
+  el.style.transform='scale(1.2) rotate(8deg)';
+  el.textContent=newEmoji;
+  setTimeout(()=>el.style.transform='',300);
+  const r=el.getBoundingClientRect();
+  spawnEmojis(r.left+r.width/2, r.top+r.height/2, burst.split(''));
+}
+
+function spawnEmojis(x,y,ems) {
+  for(let i=0;i<14;i++) {
+    setTimeout(()=>{
+      const el=document.createElement('div');
+      el.className='fe';
+      el.textContent=ems[Math.floor(Math.random()*ems.length)];
+      el.style.left=(x+(Math.random()-.5)*110)+'px';
+      el.style.top=(y+(Math.random()-.5)*60)+'px';
+      el.style.fontSize=(Math.random()*1.4+.8)+'rem';
+      el.style.animationDuration=(Math.random()*.8+1)+'s';
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(),2000);
+    },i*45);
+  }
+}
+
+function spawnConfetti(n=60) {
+  const cols=['#e8547a','#f48fb1','#f0a500','#6b9e6e','#c2185b','#fff','#ffeb3b','#81d4fa'];
+  for(let i=0;i<n;i++) {
+    setTimeout(()=>{
+      const el=document.createElement('div');
+      el.className='cf';
+      el.style.left=Math.random()*100+'vw';
+      el.style.background=cols[Math.floor(Math.random()*cols.length)];
+      el.style.width=(Math.random()*8+4)+'px';
+      el.style.height=(Math.random()*10+5)+'px';
+      el.style.animationDuration=(Math.random()*3+2)+'s';
+      el.style.animationDelay=(Math.random()*1.5)+'s';
+      el.style.borderRadius=Math.random()>.5?'50%':'2px';
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(),6000);
+    },i*30);
+  }
+}
+
+function bigBurst(e) {
+  spawnEmojis(e.clientX, e.clientY, ['💗','💕','💖','🌸','✨','🌺','🌹','🌷','🎉']);
+  spawnConfetti(120);
+  const btn=e.target;
+  btn.textContent='💗 💗 💗';
+  setTimeout(()=>btn.textContent='Отправить любовь 💗',2200);
+}
+</script>
+</body>
+</html>
